@@ -1,3 +1,3 @@
-## Uniswap V3 is live on Mainnet
+## ETH AF is live on Mainnet
 
 See the addresses [here](./deploys.md).

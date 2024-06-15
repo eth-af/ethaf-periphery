@@ -3,7 +3,7 @@ import { constants, Contract, Wallet } from 'ethers'
 import { ethers, waffle } from 'hardhat'
 import {
   IUniswapV2Pair,
-  IUniswapV3Factory,
+  IEthAfFactory,
   IWETH9,
   MockTimeNonfungiblePositionManager,
   TestERC20,
@@ -25,7 +25,7 @@ describe('V3Migrator', () => {
 
   const migratorFixture: Fixture<{
     factoryV2: Contract
-    factoryV3: IUniswapV3Factory
+    factoryV3: IEthAfFactory
     token: TestERC20
     weth9: IWETH9
     nft: MockTimeNonfungiblePositionManager
@@ -58,7 +58,7 @@ describe('V3Migrator', () => {
   }
 
   let factoryV2: Contract
-  let factoryV3: IUniswapV3Factory
+  let factoryV3: IEthAfFactory
   let token: TestERC20
   let weth9: IWETH9
   let nft: MockTimeNonfungiblePositionManager

@@ -7,7 +7,7 @@ import './ISelfPermit.sol';
 import './IPoolInitializer.sol';
 
 /// @title V3 Migrator
-/// @notice Enables migration of liqudity from Uniswap v2-compatible pairs into Uniswap v3 pools
+/// @notice Enables migration of liqudity from Uniswap v2-compatible pairs into ETH AF pools
 interface IV3Migrator is IMulticall, ISelfPermit, IPoolInitializer {
     struct MigrateParams {
         address pair; // the Uniswap v2-compatible pair
