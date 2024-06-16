@@ -10,6 +10,8 @@ import { expect } from './shared/expect'
 import { encodePath } from './shared/path'
 import { createPool } from './shared/quoter'
 
+const { AddressZero } = ethers.constants
+
 describe('Quoter', () => {
   let wallet: Wallet
   let trader: Wallet
@@ -19,7 +21,7 @@ describe('Quoter', () => {
     tokens: [TestERC20, TestERC20, TestERC20]
     quoter: Quoter
   }> = async (wallets, provider) => {
-    const { weth9, factory, router, tokens, nft } = await completeFixture(wallets, provider)
+    const { weth9, factory, router, tokens, nft, mockBlast, mockBlastPoints, gasCollector, pointsOperator } = await completeFixture(wallets, provider)
 
     // approve & fund wallets
     for (const token of tokens) {
@@ -30,7 +32,9 @@ describe('Quoter', () => {
     }
 
     const quoterFactory = await ethers.getContractFactory('Quoter')
-    quoter = (await quoterFactory.deploy(factory.address, weth9.address)) as Quoter
+    quoter = (await quoterFactory.deploy(factory.address, weth9.address,
+      mockBlast.address, mockBlastPoints.address, gasCollector, pointsOperator
+    )) as Quoter
 
     return {
       tokens,

@@ -16,8 +16,10 @@ import './base/SelfPermit.sol';
 import './interfaces/external/IWETH9.sol';
 import './base/PoolInitializer.sol';
 
+import './base/Blastable.sol';
+
 /// @title ETH AF Migrator
-contract V3Migrator is IV3Migrator, PeripheryImmutableState, PoolInitializer, Multicall, SelfPermit {
+contract V3Migrator is IV3Migrator, PeripheryImmutableState, PoolInitializer, Multicall, SelfPermit, Blastable {
     using LowGasSafeMath for uint256;
 
     address public immutable nonfungiblePositionManager;
@@ -25,9 +27,14 @@ contract V3Migrator is IV3Migrator, PeripheryImmutableState, PoolInitializer, Mu
     constructor(
         address _factory,
         address _WETH9,
-        address _nonfungiblePositionManager
+        address _nonfungiblePositionManager,
+        address blast,
+        address blastPoints,
+        address gasCollector,
+        address pointsOperator
     ) PeripheryImmutableState(_factory, _WETH9) {
         nonfungiblePositionManager = _nonfungiblePositionManager;
+        _initBlast(blast, blastPoints, gasCollector, pointsOperator);
     }
 
     receive() external payable {

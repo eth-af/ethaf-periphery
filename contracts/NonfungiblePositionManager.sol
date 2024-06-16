@@ -18,6 +18,9 @@ import './base/PeripheryValidation.sol';
 import './base/SelfPermit.sol';
 import './base/PoolInitializer.sol';
 
+import './base/Blastable.sol';
+
+
 /// @title NFT positions
 /// @notice Wraps ETH AF positions in the ERC721 non-fungible token interface
 contract NonfungiblePositionManager is
@@ -28,7 +31,8 @@ contract NonfungiblePositionManager is
     PoolInitializer,
     LiquidityManagement,
     PeripheryValidation,
-    SelfPermit
+    SelfPermit,
+    Blastable
 {
     // details about the eth af position
     struct Position {
@@ -71,9 +75,14 @@ contract NonfungiblePositionManager is
     constructor(
         address _factory,
         address _WETH9,
-        address _tokenDescriptor_
+        address _tokenDescriptor_,
+        address blast,
+        address blastPoints,
+        address gasCollector,
+        address pointsOperator
     ) ERC721Permit('ETH AF Positions NFT-V1', 'ETH-AF-POS', '1') PeripheryImmutableState(_factory, _WETH9) {
         _tokenDescriptor = _tokenDescriptor_;
+        _initBlast(blast, blastPoints, gasCollector, pointsOperator);
     }
 
     /// @inheritdoc INonfungiblePositionManager

@@ -15,11 +15,13 @@ import '../libraries/PoolAddress.sol';
 import '../libraries/CallbackValidation.sol';
 import '../libraries/PoolTicksCounter.sol';
 
+import './../base/Blastable.sol';
+
 /// @title Provides quotes for swaps
 /// @notice Allows getting the expected amount out or amount in for a given swap without executing the swap
 /// @dev These functions are not gas efficient and should _not_ be called on chain. Instead, optimistically execute
 /// the swap and check the amounts in the callback.
-contract QuoterV2 is IQuoterV2, IEthAfSwapCallback, PeripheryImmutableState {
+contract QuoterV2 is IQuoterV2, IEthAfSwapCallback, PeripheryImmutableState, Blastable {
     using Path for bytes;
     using SafeCast for uint256;
     using PoolTicksCounter for IEthAfPool;
@@ -27,7 +29,16 @@ contract QuoterV2 is IQuoterV2, IEthAfSwapCallback, PeripheryImmutableState {
     /// @dev Transient storage variable used to check a safety condition in exact output swaps.
     uint256 private amountOutCached;
 
-    constructor(address _factory, address _WETH9) PeripheryImmutableState(_factory, _WETH9) {}
+    constructor(
+        address _factory,
+        address _WETH9,
+        address blast,
+        address blastPoints,
+        address gasCollector,
+        address pointsOperator
+    ) PeripheryImmutableState(_factory, _WETH9) {
+        _initBlast(blast, blastPoints, gasCollector, pointsOperator);
+    }
 
     function getPool(
         address tokenA,

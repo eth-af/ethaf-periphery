@@ -22,6 +22,8 @@ import { expect } from './shared/expect'
 import { getMaxTick, getMinTick } from './shared/ticks'
 import { computePoolAddress } from './shared/computePoolAddress'
 
+const { AddressZero } = ethers.constants
+
 describe('PairFlash test', () => {
   const provider = waffle.provider
   const wallets = waffle.provider.getWallets()
@@ -58,7 +60,7 @@ describe('PairFlash test', () => {
   }
 
   const flashFixture = async () => {
-    const { router, tokens, factory, weth9, nft } = await completeFixture(wallets, provider)
+    const { router, tokens, factory, weth9, nft, mockBlast, mockBlastPoints, gasCollector, pointsOperator } = await completeFixture(wallets, provider)
     const token0 = tokens[0]
     const token1 = tokens[1]
 
@@ -66,7 +68,9 @@ describe('PairFlash test', () => {
     const flash = (await flashContractFactory.deploy(router.address, factory.address, weth9.address)) as PairFlash
 
     const quoterFactory = await ethers.getContractFactory('Quoter')
-    const quoter = (await quoterFactory.deploy(factory.address, weth9.address)) as Quoter
+    const quoter = (await quoterFactory.deploy(factory.address, weth9.address,
+      mockBlast.address, mockBlastPoints.address, gasCollector, pointsOperator
+    )) as Quoter
 
     return {
       token0,

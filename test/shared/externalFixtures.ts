@@ -57,6 +57,10 @@ export const ethafRouterFixture: Fixture<{
   weth9: IWETH9
   factory: IEthAfFactory
   router: MockTimeSwapRouter
+  mockBlast: MockBlast
+  mockBlastPoints: MockBlastPoints
+  gasCollector: string
+  pointsOperator: string
 }> = async ([wallet], provider) => {
   const { weth9 } = await wethFixture([wallet], provider)
 
@@ -126,8 +130,12 @@ export const ethafRouterFixture: Fixture<{
 
   const router = (await (await ethers.getContractFactory('MockTimeSwapRouter')).deploy(
     factory.address,
-    weth9.address
+    weth9.address,
+    mockBlast.address,
+    mockBlastPoints.address,
+    gasCollector,
+    pointsOperator
   )) as MockTimeSwapRouter
 
-  return { factory, weth9, router }
+  return { factory, weth9, router, mockBlast, mockBlastPoints, gasCollector, pointsOperator }
 }

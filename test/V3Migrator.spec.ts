@@ -20,6 +20,8 @@ import snapshotGasCost from './shared/snapshotGasCost'
 import { sortedTokens } from './shared/tokenSort'
 import { getMaxTick, getMinTick } from './shared/ticks'
 
+const { AddressZero } = ethers.constants
+
 describe('V3Migrator', () => {
   let wallet: Wallet
 
@@ -31,7 +33,7 @@ describe('V3Migrator', () => {
     nft: MockTimeNonfungiblePositionManager
     migrator: V3Migrator
   }> = async (wallets, provider) => {
-    const { factory, tokens, nft, weth9 } = await completeFixture(wallets, provider)
+    const { factory, tokens, nft, weth9, mockBlast, mockBlastPoints, gasCollector, pointsOperator } = await completeFixture(wallets, provider)
 
     const { factory: factoryV2 } = await v2FactoryFixture(wallets, provider)
 
@@ -44,7 +46,11 @@ describe('V3Migrator', () => {
     const migrator = (await (await ethers.getContractFactory('V3Migrator')).deploy(
       factory.address,
       weth9.address,
-      nft.address
+      nft.address,
+      mockBlast.address,
+      mockBlastPoints.address,
+      gasCollector,
+      pointsOperator
     )) as V3Migrator
 
     return {

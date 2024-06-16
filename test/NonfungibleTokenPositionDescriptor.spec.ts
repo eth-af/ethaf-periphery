@@ -10,6 +10,7 @@ import { getMaxTick, getMinTick } from './shared/ticks'
 import { sortedTokens } from './shared/tokenSort'
 import { extractJSONFromURI } from './shared/extractJSONFromURI'
 
+const { AddressZero } = ethers.constants
 const DAI = '0x6B175474E89094C44Da98b954EedeAC495271d0F'
 const USDC = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
 const USDT = '0xdAC17F958D2ee523a2206206994597C13D831ec7'
@@ -205,7 +206,8 @@ describe('NonfungibleTokenPositionDescriptor', () => {
       const nftDescriptor = (await positionDescriptorFactory.deploy(
         weth9.address,
         // 'FUNNYMONEY' as a bytes32 string
-        '0x46554e4e594d4f4e455900000000000000000000000000000000000000000000'
+        '0x46554e4e594d4f4e455900000000000000000000000000000000000000000000',
+        AddressZero, AddressZero, AddressZero, AddressZero // blast params
       )) as NonfungibleTokenPositionDescriptor
 
       const metadata = extractJSONFromURI(await nftDescriptor.tokenURI(nft.address, 1))

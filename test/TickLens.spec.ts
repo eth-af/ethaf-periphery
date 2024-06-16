@@ -10,6 +10,8 @@ import { getMaxTick, getMinTick } from './shared/ticks'
 import { computePoolAddress } from './shared/computePoolAddress'
 import snapshotGasCost from './shared/snapshotGasCost'
 
+const { AddressZero } = ethers.constants
+
 describe('TickLens', () => {
   let wallets: Wallet[]
 
@@ -106,7 +108,9 @@ describe('TickLens', () => {
 
     beforeEach(async () => {
       const lensFactory = await ethers.getContractFactory('TickLensTest')
-      tickLens = (await lensFactory.deploy()) as TickLensTest
+      tickLens = (await lensFactory.deploy(
+        AddressZero, AddressZero, AddressZero, AddressZero // blast params
+      )) as TickLensTest
     })
 
     function getTickBitmapIndex(tick: BigNumberish, tickSpacing: number): BigNumber {
