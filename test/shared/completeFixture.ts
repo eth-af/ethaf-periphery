@@ -9,6 +9,8 @@ import {
   NonfungibleTokenPositionDescriptor,
   TestERC20,
   IEthAfFactory,
+  MockBlast,
+  MockBlastPoints,
 } from '../../typechain'
 
 const completeFixture: Fixture<{
@@ -18,8 +20,12 @@ const completeFixture: Fixture<{
   nft: MockTimeNonfungiblePositionManager
   nftDescriptor: NonfungibleTokenPositionDescriptor
   tokens: [TestERC20, TestERC20, TestERC20]
+  mockBlast: MockBlast
+  mockBlastPoints: MockBlastPoints
+  gasCollector: string
+  pointsOperator: string
 }> = async ([wallet], provider) => {
-  const { weth9, factory, router } = await ethafRouterFixture([wallet], provider)
+  const { weth9, factory, router, mockBlast, mockBlastPoints, gasCollector, pointsOperator } = await ethafRouterFixture([wallet], provider)
 
   const tokenFactory = await ethers.getContractFactory('TestERC20')
   const tokens: [TestERC20, TestERC20, TestERC20] = [
@@ -38,14 +44,16 @@ const completeFixture: Fixture<{
   const nftDescriptor = (await positionDescriptorFactory.deploy(
     tokens[0].address,
     // 'ETH' as a bytes32 string
-    '0x4554480000000000000000000000000000000000000000000000000000000000'
+    '0x4554480000000000000000000000000000000000000000000000000000000000',
+    mockBlast.address, mockBlastPoints.address, gasCollector, pointsOperator
   )) as NonfungibleTokenPositionDescriptor
 
   const positionManagerFactory = await ethers.getContractFactory('MockTimeNonfungiblePositionManager')
   const nft = (await positionManagerFactory.deploy(
     factory.address,
     weth9.address,
-    nftDescriptor.address
+    nftDescriptor.address,
+    mockBlast.address, mockBlastPoints.address, gasCollector, pointsOperator
   )) as MockTimeNonfungiblePositionManager
 
   tokens.sort((a, b) => (a.address.toLowerCase() < b.address.toLowerCase() ? -1 : 1))
@@ -57,6 +65,10 @@ const completeFixture: Fixture<{
     tokens,
     nft,
     nftDescriptor,
+    mockBlast,
+    mockBlastPoints,
+    gasCollector,
+    pointsOperator,
   }
 }
 

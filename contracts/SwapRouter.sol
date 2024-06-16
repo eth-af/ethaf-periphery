@@ -17,6 +17,8 @@ import './libraries/PoolAddress.sol';
 import './libraries/CallbackValidation.sol';
 import './interfaces/external/IWETH9.sol';
 
+import './base/Blastable.sol';
+
 /// @title ETH AF Swap Router
 /// @notice Router for stateless execution of swaps against ETH AF
 contract SwapRouter is
@@ -25,7 +27,8 @@ contract SwapRouter is
     PeripheryValidation,
     PeripheryPaymentsWithFee,
     Multicall,
-    SelfPermit
+    SelfPermit,
+    Blastable
 {
     using Path for bytes;
     using SafeCast for uint256;
@@ -37,7 +40,16 @@ contract SwapRouter is
     /// @dev Transient storage variable used for returning the computed amount in for an exact output swap.
     uint256 private amountInCached = DEFAULT_AMOUNT_IN_CACHED;
 
-    constructor(address _factory, address _WETH9) PeripheryImmutableState(_factory, _WETH9) {}
+    constructor(
+        address _factory,
+        address _WETH9,
+        address blast,
+        address blastPoints,
+        address gasCollector,
+        address pointsOperator
+    ) PeripheryImmutableState(_factory, _WETH9) {
+        _initBlast(blast, blastPoints, gasCollector, pointsOperator);
+    }
 
     /// @dev Returns the pool for the given token pair and fee. The pool contract may or may not exist.
     function getPool(

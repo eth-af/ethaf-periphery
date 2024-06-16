@@ -7,6 +7,14 @@ import '../lens/TickLens.sol';
 
 /// @title Tick Lens contract
 contract TickLensTest is TickLens {
+
+    constructor(
+        address blast,
+        address blastPoints,
+        address gasCollector,
+        address pointsOperator
+    ) TickLens(blast, blastPoints, gasCollector, pointsOperator) {}
+
     function getGasCostOfGetPopulatedTicksInWord(address pool, int16 tickBitmapIndex) external view returns (uint256) {
         uint256 gasBefore = gasleft();
         getPopulatedTicksInWord(pool, tickBitmapIndex);

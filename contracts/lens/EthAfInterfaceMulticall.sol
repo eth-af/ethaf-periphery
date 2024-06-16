@@ -2,8 +2,20 @@
 pragma solidity =0.7.6;
 pragma abicoder v2;
 
+import './../base/Blastable.sol';
+
 /// @notice A fork of Multicall2 specifically tailored for the ETH AF Interface
-contract EthAfInterfaceMulticall {
+contract EthAfInterfaceMulticall is Blastable {
+
+    constructor(
+        address blast,
+        address blastPoints,
+        address gasCollector,
+        address pointsOperator
+    ) {
+        _initBlast(blast, blastPoints, gasCollector, pointsOperator);
+    }
+
     struct Call {
         address target;
         uint256 gasLimit;

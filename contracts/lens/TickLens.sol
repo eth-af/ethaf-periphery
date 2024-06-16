@@ -6,8 +6,20 @@ import '@ethaf/ethaf-core/contracts/interfaces/IEthAfPool.sol';
 
 import '../interfaces/ITickLens.sol';
 
+import './../base/Blastable.sol';
+
 /// @title Tick Lens contract
-contract TickLens is ITickLens {
+contract TickLens is ITickLens, Blastable {
+
+    constructor(
+        address blast,
+        address blastPoints,
+        address gasCollector,
+        address pointsOperator
+    ) {
+        _initBlast(blast, blastPoints, gasCollector, pointsOperator);
+    }
+
     /// @inheritdoc ITickLens
     function getPopulatedTicksInWord(address pool, int16 tickBitmapIndex)
         public
