@@ -54,10 +54,10 @@
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/@ensdomains/resolver/-/resolver-0.2.4.tgz#c10fe28bf5efbf49bff4666d909aed0265efbc89"
 
-"@ethaf/ethaf-core@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@ethaf/ethaf-core/-/ethaf-core-1.0.5.tgz#54228d5441b7520ba7f6b36f45d09bed8b079e99"
-  integrity sha512-L8LZD+68rTVV2ZrA5jMoU397tvJdNRNyOKNfuasbfOHzODgN2MsymFdDaKmGO4aw9pCcen2hfVjlhAZZChzodQ==
+"@ethaf/ethaf-core@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@ethaf/ethaf-core/-/ethaf-core-1.0.6.tgz#58f15057cf375e8624f29282483869722594a45c"
+  integrity sha512-PW3oVbg8oR3ggTGsP8NdSw58ZTxRfpyvu3grcrR3ZA3FvrCeL9cFy8waqAEqNkFX3IOYSOH5pN7s6ruMRpwNWg==
 
 "@ethereum-waffle/chai@^3.2.1":
   version "3.2.1"
