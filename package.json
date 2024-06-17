@@ -5,7 +5,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.0.2",
+  "version": "1.0.3",
   "homepage": "https://ethaf.xyz",
   "keywords": [
     "ethaf",
@@ -31,7 +31,7 @@
     "@openzeppelin/contracts": "3.4.2-solc-0.7",
     "@uniswap/lib": "^4.0.1-alpha",
     "@uniswap/v2-core": "^1.0.1",
-    "@ethaf/ethaf-core": "^1.0.5",
+    "@ethaf/ethaf-core": "^1.0.6",
     "base64-sol": "1.0.1"
   },
   "devDependencies": {
